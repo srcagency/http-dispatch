@@ -3,5 +3,8 @@
 module.exports = dispatch;
 
 function dispatch( match, request ){
-	return match.value.fn.apply(null, match.args.concat([ match.query, request ]));
+	if (typeof match.value !== 'function')
+		throw new Error('Route\'s match value must be a function');
+
+	return match.value.apply(null, match.args.concat([ match.query, request ]));
 }
