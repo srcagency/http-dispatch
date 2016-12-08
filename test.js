@@ -63,3 +63,27 @@ test(function( t ){
 		}, request);
 	}, /Route\'s match value must be a function/);
 });
+
+test('Support callbacks', function( t ){
+	t.plan(3);
+
+	const request = {};
+
+	dispatch({
+		value: function( a, b, query, request ){
+			t.deepEqual(Object.values(arguments), [
+				'a',
+				'b',
+				'd=e',
+				request,
+			]);
+
+			return 'result';
+		},
+		args: [ 'a', 'b' ],
+		query: 'd=e',
+	}, request, function( err, result ){
+		t.notOk(err);
+		t.equal(result, 'result');
+	});
+});
