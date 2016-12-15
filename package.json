@@ -8,6 +8,7 @@
 	},
 	"devDependencies": {
 		"bluebird": "^3.4.6",
+		"object.values": "^1.0.4",
 		"tape": "^4.6.3"
 	},
 	"license": "MIT"

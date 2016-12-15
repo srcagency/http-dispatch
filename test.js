@@ -2,6 +2,10 @@
 
 const test = require('tape');
 const dispatch = require('./');
+const values = require('object.values');
+
+if (!Object.values)
+    values.shim();
 
 test(function( t ){
 	t.plan(5);
