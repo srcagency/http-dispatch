@@ -7,14 +7,19 @@ const values = require('object.values');
 if (!Object.values)
     values.shim();
 
+var slice = Array.prototype.slice;
+
+const data = {firstKey: 1, secondKey: 2};
+
 test(function( t ){
-	t.plan(5);
+	t.plan(9);
 
 	const request = {};
 
 	dispatch({
-		value: function(){
-			t.deepEqual(Object.values(arguments), [
+		value: function( ctx ){
+			t.deepEqual(ctx, data);
+			t.deepEqual(Object.values(slice.call(arguments ,1)), [
 				'a',
 				'b',
 				'd=e',
@@ -23,33 +28,36 @@ test(function( t ){
 		},
 		args: [ 'a', 'b' ],
 		query: 'd=e',
-	}, request);
+	}, data, request);
 
 	dispatch({
-		value: function(){
-			t.deepEqual(Object.values(arguments), [
+		value: function( ctx ){
+			t.deepEqual(ctx, data);
+			t.deepEqual(Object.values(slice.call(arguments ,1)), [
 				'd=e',
 				request,
 			]);
 		},
 		args: [],
 		query: 'd=e',
-	}, request);
+	}, data, request);
 
 	dispatch({
-		value: function(){
-			t.deepEqual(Object.values(arguments), [
+		value: function( ctx ){
+			t.deepEqual(ctx, data);
+			t.deepEqual(Object.values(slice.call(arguments ,1)), [
 				'',
 				request,
 			]);
 		},
 		args: [],
 		query: '',
-	}, request);
+	}, data, request);
 
 	dispatch({
-		value: function(){
-			t.deepEqual(Object.values(arguments), [
+		value: function( ctx ){
+			t.deepEqual(ctx, data);
+			t.deepEqual(Object.values(slice.call(arguments ,1)), [
 				'a',
 				'',
 				request,
@@ -57,7 +65,7 @@ test(function( t ){
 		},
 		args: [ 'a' ],
 		query: '',
-	}, request);
+	}, data, request);
 
 	t.throws(function(){
 		dispatch({
@@ -69,13 +77,14 @@ test(function( t ){
 });
 
 test('Support callbacks', function( t ){
-	t.plan(3);
+	t.plan(4);
 
 	const request = {};
 
 	dispatch({
-		value: function( a, b, query, request ){
-			t.deepEqual(Object.values(arguments), [
+		value: function( ctx, a, b, query, request ){
+			t.deepEqual(ctx, data);
+			t.deepEqual(Object.values(slice.call(arguments ,1)), [
 				'a',
 				'b',
 				'd=e',
@@ -86,7 +95,7 @@ test('Support callbacks', function( t ){
 		},
 		args: [ 'a', 'b' ],
 		query: 'd=e',
-	}, request, function( err, result ){
+	}, data, request, function( err, result ){
 		t.notOk(err);
 		t.equal(result, 'result');
 	});
