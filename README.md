@@ -1,7 +1,7 @@
 # http-dispatch
 
-Pass this function the result of a http routing lookup (of the format `{
-value, args, query }`) and have the `value` be a function, then it will call
+Pass this function the result of a http routing lookup (of the format
+`{ value, args, query }`) and have the `value` be a function, then it will call
 that function in a manner of `fn(ctx, ...args, query, req)`. `ctx` can be any
 javascript `Object`.
 
