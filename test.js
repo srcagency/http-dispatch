@@ -61,7 +61,7 @@ test(function( t ){
 			args: [],
 			query: '',
 		}, request);
-	}, /Route\'s match value must be a function/);
+	}, /is not a function/);
 });
 
 test('Support callbacks', function( t ){
