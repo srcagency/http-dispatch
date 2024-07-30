@@ -64,8 +64,8 @@ test(function( t ){
 	}, /is not a function/);
 });
 
-test('Support callbacks', function( t ){
-	t.plan(3);
+test('Returns a promise', function( t ){
+	t.plan(2);
 
 	const request = {};
 
@@ -82,8 +82,9 @@ test('Support callbacks', function( t ){
 		},
 		args: [ 'a', 'b' ],
 		query: 'd=e',
-	}, request, function( err, result ){
-		t.notOk(err);
+	}, request).then(function( result ){
 		t.equal(result, 'result');
+	}, function( err ){
+		t.fail(err);
 	});
 });
